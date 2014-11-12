@@ -2,9 +2,9 @@
 <html>
 
 <head>
-    <meta name="description" content="Генплан Апрелевки" />
+    <meta name="description" content="Карты и генплан Апреловки" />
     <meta charset="utf-8">
-    <title>JS Bin</title>
+    <title>Карты Апрелeвки</title>
     <script src="http://api-maps.yandex.ru/2.1/?lang=ru_RU&ns=ym" type="text/javascript"></script>
 </head>
 
@@ -43,7 +43,7 @@
             });
         };
         ym.layer.storage.add('apr#osobL', aprosobL)
-        var aprosobM = new ym.MapType('Особые зоны', ['yandex#satellite', aprosobL]);
+        var aprosobM = new ym.MapType('Особые зоны', [aprosobL]);
         ym.mapType.storage.add('apr#osob', aprosobM);
 
 
@@ -53,7 +53,7 @@
                 tileTransparent: true
             });
         };
-        var aprkultM = new ym.MapType('Культурные объекты', ['yandex#satellite', aprkultL]);
+        var aprkultM = new ym.MapType('Культурные объекты', [aprkultL]);
         ym.mapType.storage.add('apr#kult', aprkultM);
 
 
@@ -64,7 +64,7 @@
             });
         };
         ym.layer.storage.add('apr#inzhL', aprinzhL)
-        var aprinzhM = new ym.MapType('Инженерные сети', ['yandex#satellite', aprinzhL]);
+        var aprinzhM = new ym.MapType('Инженерные сети', [aprinzhL]);
         ym.mapType.storage.add('apr#inzh', aprinzhM);
 
 
@@ -87,17 +87,6 @@
         ym.layer.storage.add('apr#newgenL', aprgenL)
         var aprgenM = new ym.MapType('Новый генплан (проект)', ['yandex#satellite', aprgenL]);
         ym.mapType.storage.add('apr#newgen', aprgenM);
-
-
-        var borovsklayer = function() {
-            return new ym.Layer('http://vnr.github.io/maps/Z%z/%y/%x.png', {
-                zIndex: 1000,
-                projection: ym.projection.sphericalMercator,
-                tileTransparent: true
-            });
-        };
-        var borovskMap = new ym.MapType('BorovskMap', [borovsklayer]);
-        ym.mapType.storage.add('borovks#map', borovskMap);
 
 
         var aprshubL = function() {
