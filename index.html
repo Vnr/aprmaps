@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="description" content="Генплан Апрелевки" />
+    <meta charset="utf-8">
+    <title>JS Bin</title>
+    <script src="http://api-maps.yandex.ru/2.1/?lang=ru_RU&ns=ym" type="text/javascript"></script>
+</head>
+
+<body>
+    <div id="ymap" style="height: 480px; width: 640px;"></div>
+
+    <script type="text/javascript">
+    ym.ready(function() {
+        var layerOSM = function() {
+            var layer = new ym.Layer('http://otile%d.mqcdn.com/tiles/1.0.0/osm/%z/%x/%y.png', {
+                projection: ym.projection.sphericalMercator
+            });
+            layer.getCopyrights = function() {
+                return ym.vow.resolve('© OpenStreetMap contributors, CC-BY-SA | Tiles Courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png" /> | ');
+            }
+            return layer;
+        };
+        var osMap = new ym.MapType('OSM', [layerOSM]);
+        ym.mapType.storage.add('openstreet#map', osMap);
+
+
+        var layerGoogle = function() {
+            return new ym.Layer('http://mt0.google.com/vt/lyrs=m@176000000&hl=ru&%c', {
+                projection: ym.projection.sphericalMercator,
+                tileTransparent: true
+            });
+        };
+        var googleMap = new ym.MapType('Google map', [layerGoogle]);
+        ym.mapType.storage.add('google#map', googleMap);
+
+
+        var aprosobL = function() {
+            return new ym.Layer('http://vnr.github.io/aprmaps/img/osob/Z%z/%y/%x.png', {
+                projection: ym.projection.sphericalMercator,
+                tileTransparent: true
+            });
+        };
+        ym.layer.storage.add('apr#osobL', aprosobL)
+        var aprosobM = new ym.MapType('Особые зоны', ['yandex#satellite', aprosobL]);
+        ym.mapType.storage.add('apr#osob', aprosobM);
+
+
+        var aprkultL = function() {
+            return new ym.Layer('http://vnr.github.io/aprmaps/img/kultura/Z%z/%y/%x.png', {
+                projection: ym.projection.sphericalMercator,
+                tileTransparent: true
+            });
+        };
+        var aprkultM = new ym.MapType('Культурные объекты', ['yandex#satellite', aprkultL]);
+        ym.mapType.storage.add('apr#kult', aprkultM);
+
+
+        var aprinzhL = function() {
+            return new ym.Layer('http://vnr.github.io/aprmaps/img/inzh/Z%z/%y/%x.png', {
+                projection: ym.projection.sphericalMercator,
+                tileTransparent: true
+            });
+        };
+        ym.layer.storage.add('apr#inzhL', aprinzhL)
+        var aprinzhM = new ym.MapType('Инженерные сети', ['yandex#satellite', aprinzhL]);
+        ym.mapType.storage.add('apr#inzh', aprinzhM);
+
+
+        var aproldgenL = function() {
+            return new ym.Layer('http://vnr.github.io/aprmaps/img/oldgenplan/Z%z/%y/%x.png', {
+                projection: ym.projection.sphericalMercator,
+                tileTransparent: true
+            });
+        };
+        var aproldgenM = new ym.MapType('Старый Генплан 2014', ['yandex#satellite', aproldgenL]);
+        ym.mapType.storage.add('apr#oldgen', aproldgenM);
+
+
+        var aprgenL = function() {
+            return new ym.Layer('http://vnr.github.io/aprmaps/img/newgenplan/Z%z/%y/%x.png', {
+                projection: ym.projection.sphericalMercator,
+                tileTransparent: true
+            });
+        };
+        ym.layer.storage.add('apr#newgenL', aprgenL)
+        var aprgenM = new ym.MapType('Новый генплан (проект)', ['yandex#satellite', aprgenL]);
+        ym.mapType.storage.add('apr#newgen', aprgenM);
+
+
+        var borovsklayer = function() {
+            return new ym.Layer('http://vnr.github.io/maps/Z%z/%y/%x.png', {
+                zIndex: 1000,
+                projection: ym.projection.sphericalMercator,
+                tileTransparent: true
+            });
+        };
+        var borovskMap = new ym.MapType('BorovskMap', [borovsklayer]);
+        ym.mapType.storage.add('borovks#map', borovskMap);
+
+
+        var aprshubL = function() {
+            return new ym.Layer('http://vnr.github.io/maps/shub/Z%z/%y/%x.jpg', {
+                projection: ym.projection.sphericalMercator,
+                tileTransparent: false
+            });
+        };
+        var aprshubM = new ym.MapType('Карта Шуберта 1860', [aprshubL]);
+        ym.mapType.storage.add('apr#shub', aprshubM);
+
+
+        var yaskeleton = function() {
+            return new ym.Layer('http://vec01.maps.yandex.net/tiles?l=skl&%c&lang=ru_RU', {
+                zIndex: 1000,
+                //         projection: ym.projection.sphericalMercator,
+                tileTransparent: true
+            });
+        };
+        ym.layer.storage.add('my#skeleton', yaskeleton);
+
+
+        var map = new ym.Map('ymap', {
+            center: [55.531447, 37.08],
+            zoom: 12,
+            controls: ["rulerControl", "fullscreenControl", "geolocationControl", "zoomControl"],
+            type: 'apr#newgen'
+        }, {
+            maxZoom: 16,
+            minZoom: 12
+        });
+
+
+        var button = new ym.control.Button({
+            data: {
+                content: 'Гибрид',
+                title: 'Включить гибридный слой'
+            },
+            options: {
+                //           maxWidth: [150, 200, 300],
+                floatIndex: 100,
+                float: 'right'
+            }
+        });
+        button.events.add('click', function(e) {
+            //   this.setType('apr#osob');
+            if (button.state.get('selected') == true) {
+                this.layers.remove('my#skeleton');
+            } else {
+                this.layers.add('my#skeleton');
+            }
+        }, map)
+        map.controls.add(button);
+
+
+        var button2 = new ym.control.Button({
+            data: {
+                content: 'Спутник',
+                title: 'Яндекс Спутник'
+            },
+            options: {
+                selectOnClick: true
+            }
+        });
+        button2.events
+            .add('deselect', function(e) {
+                this.layers.remove('yandex#satellite');
+            }, map)
+            .add('select', function(e) {
+                this.layers.add('yandex#satellite');
+            }, map);
+        map.controls.add(button2, {
+            floatIndex: 2,
+            float: 'right'
+        });
+
+        var button3 = new ym.control.Button({
+            data: {
+                content: 'Генплан',
+                title: 'Новый генплан (проект)'
+            },
+            options: {
+                selectOnClick: true,
+                floatIndex: 1
+            }
+        });
+        button3.events
+            .add('deselect', function(e) {
+                this.layers.remove('apr#newgenL');
+            }, map)
+            .add('select', function(e) {
+                this.layers.add('apr#newgenL');
+            }, map);
+        map.controls.add(button3, {
+            float: 'right'
+        });
+
+        map.controls.add('routeEditor');
+        map.controls.add(
+            new ym.control.SearchControl({
+                options: {
+                    provider: 'yandex#publicMap',
+                    useMapBounds: true
+                }
+            })
+        );
+
+        map.controls.add(new ym.control.TypeSelector(['apr#newgen', 'apr#oldgen', 'apr#osob', 'apr#inzh', 'apr#kult', 'yandex#map', 'yandex#hybrid', 'yandex#publicMap', 'apr#shub', 'google#map', 'openstreet#map']), {
+            size: 'large',
+            float: 'right'
+        });
+
+        //     map.copyrights.add('&copy; Vasya');
+    });
+    </script>
+
+    
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+    (function(d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter27035262 = new Ya.Metrika({
+                    id: 27035262,
+                    webvisor: true,
+                    clickmap: true,
+                    trackLinks: true,
+                    accurateTrackBounce: true,
+                    ut: "noindex"
+                });
+            } catch (e) {}
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function() {
+                n.parentNode.insertBefore(s, n);
+            };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else {
+            f();
+        }
+    })(document, window, "yandex_metrika_callbacks");
+    </script>
+    <noscript>
+        <div>
+            <img src="//mc.yandex.ru/watch/27035262?ut=noindex" style="position:absolute; left:-9999px;" alt="" />
+        </div>
+    </noscript>
+    <!-- /Yandex.Metrika counter -->
+</body>
+
+</html>
