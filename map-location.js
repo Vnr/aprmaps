@@ -5,6 +5,13 @@
  * @param {ymaps.Map} map Экземпляр карты.
  * @param {MapLocationState} state Объект-состояние карты.
  */
+ 
+ /*IE8 fix*/
+(function(fn){
+    if (!fn.map) fn.map=function(f){var r=[];for(var i=0;i<this.length;i++)if(this[i]!==undefined)r[i]=f(this[i]);return r}
+    if (!fn.filter) fn.filter=function(f){var r=[];for(var i=0;i<this.length;i++)if(this[i]!==undefined&&f(this[i]))r[i]=this[i];return r}
+})(Array.prototype);
+
 function MapLocation(map, state) {
     this._map = map;
     this._state = state;

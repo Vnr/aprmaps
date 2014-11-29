@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    <div id="ymap" style="height: 480px; width: 640px;"></div>
+    <div id="ymap" style="height: 600px; width: 800px;"></div>
     <div id='loading' style='position:absolute; top: 50%; left: 50%; font-size: 2em'>
         Loading...
     </div>
@@ -142,7 +142,7 @@
             var state = e.get('newState'),
                 hash = '#' + state;
             
-            if('history' in window) {
+            if('pushState' in window.history) {
                 window.history.pushState(state.getData(), null, hash);
             }
             else {
