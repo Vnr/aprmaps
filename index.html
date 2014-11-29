@@ -91,7 +91,7 @@
                 tileTransparent: true
             });
         };
-        var aproldgenM = new ym.MapType('Старый Генплан 2014', ['yandex#satellite', aproldgenL]);
+        var aproldgenM = new ym.MapType('Старый Генплан 2014', [aproldgenL]);
         ym.mapType.storage.add('apr#oldgen', aproldgenM);
     
     
@@ -159,7 +159,7 @@
                 mapLocation.setState(state);
             }
             else {
-                window.history.replaceState(initialState.getData());
+                mapLocation.setState(initialState.getData());
             }
         };
         
