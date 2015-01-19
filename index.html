@@ -21,6 +21,39 @@
     ym.ready(function() {
         document.getElementById('loading').style.display='none';
         
+        var L1970 = function() {
+            return new ym.Layer('http://vnr.github.io/aprmaps/img/1970/Z%z/%y/%x.png', {
+                projection: ym.projection.sphericalMercator,
+                tileTransparent: true
+            });
+        };
+        ym.layer.storage.add('apr#L1970', L1970)
+        var M1970 = new ym.MapType('Cнимок Апрелевки 1970', ['yandex#satellite', 'apr#L1970']);
+        ym.mapType.storage.add('apr#1970', M1970);
+        
+        
+        var L1971 = function() {
+            return new ym.Layer('http://vnr.github.io/aprmaps/img/1971/Z%z/%y/%x.png', {
+                projection: ym.projection.sphericalMercator,
+                tileTransparent: true
+            });
+        };
+        ym.layer.storage.add('apr#L1971', L1971)
+        var M1971 = new ym.MapType('Cнимок Апрелевки 1971', ['yandex#satellite', 'apr#L1971']);
+        ym.mapType.storage.add('apr#1971', M1971);        
+        
+        
+        var L1979 = function() {
+            return new ym.Layer('http://vnr.github.io/aprmaps/img/1979/Z%z/%y/%x.png', {
+                projection: ym.projection.sphericalMercator,
+                tileTransparent: true
+            });
+        };
+        ym.layer.storage.add('apr#L1979', L1979)
+        var M1979 = new ym.MapType('Cнимок Апрелевки 1979', ['yandex#satellite', 'apr#L1979']);
+        ym.mapType.storage.add('apr#1979', M1979);
+        
+        
         var layerOSM = function() {
             var layer = new ym.Layer('http://otile%d.mqcdn.com/tiles/1.0.0/osm/%z/%x/%y.png', {
                 projection: ym.projection.sphericalMercator
@@ -32,6 +65,7 @@
         };
         var osMap = new ym.MapType('OSM', [layerOSM]);
         ym.mapType.storage.add('openstreet#map', osMap);
+    
     
         var googleSatL = function() {
             return new ym.Layer('https://khms0.google.com/kh/v=162&%c', {
@@ -127,11 +161,10 @@
         
 
 
-
         var initialState = MapLocationState.fromString(document.location.hash);
         var map = window.map = new ym.Map('ymap', initialState.getData(), {
-            maxZoom: 16,
-            minZoom: 12
+            maxZoom: 17,
+            minZoom: 10
         });
         var mapLocation = window.mapLocation = new MapLocation(map, initialState);
         
@@ -240,7 +273,7 @@
             data: {
                 content: 'Слои'
             },
-            mapTypes: ['apr#newgen', 'apr#oldgen', 'apr#osob', 'apr#inzh', 'apr#kult', 'yandex#map', 'yandex#hybrid', 'yandex#publicMap', 'apr#shub', 'google#sat', 'openstreet#map'],
+            mapTypes: ['apr#newgen', 'apr#oldgen', 'apr#osob', 'apr#inzh', 'apr#kult', 'yandex#map', 'yandex#hybrid', 'yandex#publicMap', 'google#sat', 'openstreet#map', 'apr#1970', 'apr#1971', 'apr#1979'],
             options: {
                 size: 'large'
             }
