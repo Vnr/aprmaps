@@ -28,7 +28,7 @@
             });
         };
         ym.layer.storage.add('apr#L1970', L1970)
-        var M1970 = new ym.MapType('Cнимок Апрелевки 1970', ['yandex#satellite', 'apr#L1970']);
+        var M1970 = new ym.MapType('Спутниковый снимок 1970', ['yandex#satellite', 'apr#L1970']);
         ym.mapType.storage.add('apr#1970', M1970);
         
         
@@ -39,7 +39,7 @@
             });
         };
         ym.layer.storage.add('apr#L1971', L1971)
-        var M1971 = new ym.MapType('Cнимок Апрелевки 1971', ['yandex#satellite', 'apr#L1971']);
+        var M1971 = new ym.MapType('Спутниковый снимок 1971', ['yandex#satellite', 'apr#L1971']);
         ym.mapType.storage.add('apr#1971', M1971);        
         
         
@@ -50,7 +50,7 @@
             });
         };
         ym.layer.storage.add('apr#L1979', L1979)
-        var M1979 = new ym.MapType('Cнимок Апрелевки 1979', ['yandex#satellite', 'apr#L1979']);
+        var M1979 = new ym.MapType('Спутниковый снимок 1979', ['yandex#satellite', 'apr#L1979']);
         ym.mapType.storage.add('apr#1979', M1979);
         
         
@@ -63,7 +63,7 @@
             }
             return layer;
         };
-        var osMap = new ym.MapType('OSM', [layerOSM]);
+        var osMap = new ym.MapType('Openstreetmap', [layerOSM]);
         ym.mapType.storage.add('openstreet#map', osMap);
     
     
@@ -73,7 +73,7 @@
                 tileTransparent: false
             });
         };
-        var googleSat = new ym.MapType('Спутник Google', [googleSatL]);
+        var googleSat = new ym.MapType('Google satellite', [googleSatL]);
         ym.mapType.storage.add('google#sat', googleSat);
     
     
@@ -94,7 +94,7 @@
             });
         };
         ym.layer.storage.add('apr#osobL', aprosobL)
-        var aprosobM = new ym.MapType('Особые зоны', [aprosobL]);
+        var aprosobM = new ym.MapType('Генплан: особые зоны', [aprosobL]);
         ym.mapType.storage.add('apr#osob', aprosobM);
     
     
@@ -104,7 +104,7 @@
                 tileTransparent: true
             });
         };
-        var aprkultM = new ym.MapType('Культурные объекты', [aprkultL]);
+        var aprkultM = new ym.MapType('Генплан: культурные объекты', [aprkultL]);
         ym.mapType.storage.add('apr#kult', aprkultM);
     
     
@@ -115,7 +115,7 @@
             });
         };
         ym.layer.storage.add('apr#inzhL', aprinzhL)
-        var aprinzhM = new ym.MapType('Инженерные сети', [aprinzhL]);
+        var aprinzhM = new ym.MapType('Генплан: инженерные сети', [aprinzhL]);
         ym.mapType.storage.add('apr#inzh', aprinzhM);
     
     
@@ -125,7 +125,7 @@
                 tileTransparent: true
             });
         };
-        var aproldgenM = new ym.MapType('Старый Генплан 2014', [aproldgenL]);
+        var aproldgenM = new ym.MapType('Генплан: 2014', [aproldgenL]);
         ym.mapType.storage.add('apr#oldgen', aproldgenM);
     
     
@@ -136,18 +136,30 @@
             });
         };
         ym.layer.storage.add('apr#newgenL', aprgenL)
-        var aprgenM = new ym.MapType('Новый генплан (проект)', ['yandex#satellite', aprgenL]);
+        var aprgenM = new ym.MapType('Генплан: 2015', ['yandex#satellite', aprgenL]);
         ym.mapType.storage.add('apr#newgen', aprgenM);
     
-    
-        var aprshubL = function() {
-            return new ym.Layer('http://vnr.github.io/maps/shub/Z%z/%y/%x.jpg', {
+
+        var proryvL = function() {
+            return new ym.Layer('http://vnr.github.io/aprmaps/img/wwii-burzevo/Z%z/%y/%x.png', {
                 projection: ym.projection.sphericalMercator,
-                tileTransparent: false
+                tileTransparent: true
             });
         };
-        var aprshubM = new ym.MapType('Карта Шуберта 1860', [aprshubL]);
-        ym.mapType.storage.add('apr#shub', aprshubM);
+        ym.layer.storage.add('wwii#proryvL', proryvL)
+        var proryvM = new ym.MapType('ВОВ: Бурцевский прорыв 01.12.1941', [proryvL]);
+        ym.mapType.storage.add('wwii#proryv', proryvM);
+        
+        
+        var ukrepL = function() {
+            return new ym.Layer('http://vnr.github.io/aprmaps/img/wwii-ukrep/Z%z/%y/%x.png', {
+                projection: ym.projection.sphericalMercator,
+                tileTransparent: true
+            });
+        };
+        ym.layer.storage.add('wwii#ukrepL', ukrepL)
+        var ukrepM = new ym.MapType('ВОВ: Инженерные заграждения 12.1941', [ukrepL]);
+        ym.mapType.storage.add('wwii#ukrep', ukrepM);        
     
     
         var yaskeleton = function() {
@@ -164,7 +176,7 @@
         var initialState = MapLocationState.fromString(document.location.hash);
         var map = window.map = new ym.Map('ymap', initialState.getData(), {
             maxZoom: 17,
-            minZoom: 10
+            minZoom: 9
         });
         var mapLocation = window.mapLocation = new MapLocation(map, initialState);
         
@@ -176,14 +188,15 @@
                 hash = '#' + state;
             
             if('pushState' in window.history) {
-                window.history.pushState(state.getData(), null, hash);
+                //window.history.pushState(state.getData(), null, hash);
+                history.replaceState(state.getData(), undefined, hash)
             }
             else {
-                document.location.hash = hash;
+                //document.location.hash = hash;
+                document.location.replace(hash);
             }
         });
 
-        //$(window).on('popstate', function (e) {
         window.onpopstate = function (e) {
             //var state = e.originalEvent.state;
             var state = e.state;
@@ -260,20 +273,20 @@
             }, map);
         map.controls.add(button3);
     
-        map.controls.add(
-            new ym.control.SearchControl({
-                options: {
-                    provider: 'yandex#publicMap',
-                    useMapBounds: true
-                }
-            })
-        );
+//        map.controls.add(
+//            new ym.control.SearchControl({
+//                options: {
+//                    provider: 'yandex#publicMap',
+//                    useMapBounds: true
+//                }
+//            })
+//        );
         
         typeSelector = new ym.control.TypeSelector({
             data: {
                 content: 'Слои'
             },
-            mapTypes: ['apr#newgen', 'apr#oldgen', 'apr#osob', 'apr#inzh', 'apr#kult', 'yandex#map', 'yandex#hybrid', 'yandex#publicMap', 'google#sat', 'openstreet#map', 'apr#1970', 'apr#1971', 'apr#1979'],
+            mapTypes: ['apr#newgen', 'apr#oldgen', 'apr#osob', 'apr#inzh', 'apr#kult', 'yandex#map', 'yandex#hybrid', 'yandex#publicMap', 'google#sat', 'openstreet#map', 'apr#1970', 'apr#1971', 'apr#1979', 'wwii#proryv', 'wwii#ukrep'],
             options: {
                 size: 'large'
             }
