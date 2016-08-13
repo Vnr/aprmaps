@@ -177,7 +177,7 @@ MapLocationState.fromString = function (location) {
 		        	params.center.split(',').map(MapLocationState.toFixedNumber) : 
 		        	[55.531447, 37.080000],
         zoom: Number(params.zoom) || 13,
-        controls: ["rulerControl", "fullscreenControl", "geolocationControl", "zoomControl"],
+        controls: ["rulerControl", "fullscreenControl",  "routeEditor", "zoomControl"],
         type: params.type || 'apr#newgen'
     });
 };
