@@ -176,7 +176,7 @@ MapLocationState.fromString = function (location) {
         center: params.center ? 
 		        	params.center.split(',').map(MapLocationState.toFixedNumber) : 
 		        	[55.531447, 37.080000],
-        zoom: 7 <= Number(params.zoom) && Number(params.zoom) <= 16 ? Number(params.zoom) : 12,
+        zoom: 7 <= Number(params.zoom) && Number(params.zoom) <= 16 ? Number(params.zoom) : 13,
         //controls: ["rulerControl", "routeEditor", "zoomControl"],
         type: params.type || 'apr#oldgen'
     });
