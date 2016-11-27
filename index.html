@@ -5,322 +5,46 @@
     <meta name="description" content="Карты и генплан Апреловки" />
     <meta charset="utf-8">
     <title>Карты Апрелeвки</title>
-    <script src="http://api-maps.yandex.ru/2.1/?lang=ru_RU&ns=ym" type="text/javascript"></script>
-    <!-- <script src="http://yandex.st/jquery/1.8.0/jquery.min.js" type="text/javascript"></script> -->
-    <script src="map-location.js" type="text/javascript"></script>
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&ns=ymaps" type="text/javascript"></script>
+    <!-- <script src="https://yandex.st/jquery/1.8.0/jquery.min.js" type="text/javascript"></script> -->
+    <script src="scripts/map-location.js" type="text/javascript"></script>
+    <script src="scripts/custom.js" type="text/javascript"></script>
+    <style type="text/css">
+        html, body, #ymap {
+            height: 100%;
+            padding: 0;
+            border: 0;
+            margin: 0;
+        }
+    </style>
 </head>
 
 <body>
-    <div id="ymap" style="height: 600px; width: 800px;"></div>
+    <div id="ymap"></div>
     <div id='loading' style='position:absolute; top: 50%; left: 50%; font-size: 2em'>
         Loading...
     </div>
-    
-
-    <script type="text/javascript">
-    ym.ready(function() {
-        document.getElementById('loading').style.display='none';
-        
-        var L1970 = function() {
-            return new ym.Layer('http://vnr.github.io/aprmaps/img/1970/Z%z/%y/%x.png', {
-                projection: ym.projection.sphericalMercator,
-                tileTransparent: true
-            });
-        };
-        ym.layer.storage.add('apr#L1970', L1970)
-        var M1970 = new ym.MapType('Спутниковый снимок 1970', ['yandex#satellite', 'apr#L1970']);
-        ym.mapType.storage.add('apr#1970', M1970);
-        
-        
-        var L1971 = function() {
-            return new ym.Layer('http://vnr.github.io/aprmaps/img/1971/Z%z/%y/%x.png', {
-                projection: ym.projection.sphericalMercator,
-                tileTransparent: true
-            });
-        };
-        ym.layer.storage.add('apr#L1971', L1971)
-        var M1971 = new ym.MapType('Спутниковый снимок 1971', ['yandex#satellite', 'apr#L1971']);
-        ym.mapType.storage.add('apr#1971', M1971);        
-        
-        
-        var L1979 = function() {
-            return new ym.Layer('http://vnr.github.io/aprmaps/img/1979/Z%z/%y/%x.png', {
-                projection: ym.projection.sphericalMercator,
-                tileTransparent: true
-            });
-        };
-        ym.layer.storage.add('apr#L1979', L1979)
-        var M1979 = new ym.MapType('Спутниковый снимок 1979', ['yandex#satellite', 'apr#L1979']);
-        ym.mapType.storage.add('apr#1979', M1979);
-        
-        
-        var layerOSM = function() {
-            var layer = new ym.Layer('http://otile%d.mqcdn.com/tiles/1.0.0/osm/%z/%x/%y.png', {
-                projection: ym.projection.sphericalMercator
-            });
-            layer.getCopyrights = function() {
-                return ym.vow.resolve('© OpenStreetMap contributors, CC-BY-SA | Tiles Courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png" /> | ');
-            }
-            return layer;
-        };
-        var osMap = new ym.MapType('Openstreetmap', [layerOSM]);
-        ym.mapType.storage.add('openstreet#map', osMap);
-    
-    
-        var googleSatL = function() {
-            return new ym.Layer('https://khms0.google.com/kh/v=162&%c', {
-                projection: ym.projection.sphericalMercator,
-                tileTransparent: false
-            });
-        };
-        var googleSat = new ym.MapType('Google satellite', [googleSatL]);
-        ym.mapType.storage.add('google#sat', googleSat);
-    
-    
-        var googleMapL = function() {
-            return new ym.Layer('http://mt0.google.com/vt/lyrs=m@176000000&hl=ru&%c', {
-                projection: ym.projection.sphericalMercator,
-                tileTransparent: false
-            });
-        };
-        var googleMap = new ym.MapType('Google map', [googleMapL]);
-        ym.mapType.storage.add('google#map', googleMap);
-    
-    
-        var aprosobL = function() {
-            return new ym.Layer('http://vnr.github.io/aprmaps/img/osob/Z%z/%y/%x.png', {
-                projection: ym.projection.sphericalMercator,
-                tileTransparent: true
-            });
-        };
-        ym.layer.storage.add('apr#osobL', aprosobL)
-        var aprosobM = new ym.MapType('Генплан: особые зоны', [aprosobL]);
-        ym.mapType.storage.add('apr#osob', aprosobM);
-    
-    
-        var aprkultL = function() {
-            return new ym.Layer('http://vnr.github.io/aprmaps/img/kultura/Z%z/%y/%x.png', {
-                projection: ym.projection.sphericalMercator,
-                tileTransparent: true
-            });
-        };
-        var aprkultM = new ym.MapType('Генплан: культурные объекты', [aprkultL]);
-        ym.mapType.storage.add('apr#kult', aprkultM);
-    
-    
-        var aprinzhL = function() {
-            return new ym.Layer('http://vnr.github.io/aprmaps/img/inzh/Z%z/%y/%x.png', {
-                projection: ym.projection.sphericalMercator,
-                tileTransparent: true
-            });
-        };
-        ym.layer.storage.add('apr#inzhL', aprinzhL)
-        var aprinzhM = new ym.MapType('Генплан: инженерные сети', [aprinzhL]);
-        ym.mapType.storage.add('apr#inzh', aprinzhM);
-    
-    
-        var aproldgenL = function() {
-            return new ym.Layer('http://vnr.github.io/aprmaps/img/oldgenplan/Z%z/%y/%x.png', {
-                projection: ym.projection.sphericalMercator,
-                tileTransparent: true
-            });
-        };
-        var aproldgenM = new ym.MapType('Генплан: 2014', [aproldgenL]);
-        ym.mapType.storage.add('apr#oldgen', aproldgenM);
-    
-    
-        var aprgenL = function() {
-            return new ym.Layer('http://vnr.github.io/aprmaps/img/newgenplan/Z%z/%y/%x.png', {
-                projection: ym.projection.sphericalMercator,
-                tileTransparent: true
-            });
-        };
-        ym.layer.storage.add('apr#newgenL', aprgenL)
-        var aprgenM = new ym.MapType('Генплан: 2015', ['yandex#satellite', aprgenL]);
-        ym.mapType.storage.add('apr#newgen', aprgenM);
-    
-
-        var proryvL = function() {
-            return new ym.Layer('http://vnr.github.io/aprmaps/img/wwii-burzevo/Z%z/%y/%x.png', {
-                projection: ym.projection.sphericalMercator,
-                tileTransparent: true
-            });
-        };
-        ym.layer.storage.add('wwii#proryvL', proryvL)
-        var proryvM = new ym.MapType('ВОВ: Бурцевский прорыв 01.12.1941', [proryvL]);
-        ym.mapType.storage.add('wwii#proryv', proryvM);
-        
-        
-        var ukrepL = function() {
-            var layer = new ym.Layer('https://1d7585a29870d661c050f7c362cc1e98942c9fb5.googledrive.com/host/0Bw8Xp7WUF3FTfjliODFUb19TMkdwU3NZazdGaUpwN0hBSlh2OGQyMXJ6VkdGMHltTjBXUGs/wwii/1941-11-ukr/Z%z/%y/%x.png', {
-                projection: ym.projection.sphericalMercator,
-                tileTransparent: true
-            });
-            layer.getZoomRange = function () {
-                return ym.vow.resolve([7, 13]);
-            };
-            return layer;
-        };
-        ym.layer.storage.add('wwii#ukrepL', ukrepL)
-        var ukrepM = new ym.MapType('ВОВ: Инженерные заграждения 12.1941', [ukrepL]);
-        ym.mapType.storage.add('wwii#ukrep', ukrepM);
-    
-    
-        var yaskeleton = function() {
-            return new ym.Layer('http://vec01.maps.yandex.net/tiles?l=skl&%c&lang=ru_RU', {
-                zIndex: 1000,
-                //         projection: ym.projection.sphericalMercator,
-                tileTransparent: true
-            });
-        };
-        ym.layer.storage.add('my#skeleton', yaskeleton);
-        
-/////////////////////////////////////////////////////////////////////////
-
-        var initialState = MapLocationState.fromString(document.location.hash);
-        var map = window.map = new ym.Map('ymap', initialState.getData(), {
-            maxZoom: 17,
-            minZoom: 9,
-            suppressMapOpenBlock: true
-        });
-        map.controls.get('fullscreenControl').enterFullscreen();
-
-        map.typeBounds = {
-            'wwii#proryv':[[55.17327, 36.48573],[55.68167, 37.5157]],
-            'wwii#ukrep':[[54.31783, 35.49147],[56.69261, 37.96339]],
-            'apr#newgen':[[55.46411, 36.99898],[55.59497, 37.14523]],
-            'apr#oldgen':[[55.46274, 36.99863],[55.59653, 37.14386]],
-            'apr#1970':[[55.51245, 36.9739],[55.60352, 37.10369]],
-            'apr#1971':[[55.50836, 36.964],[55.60411, 37.1085]],
-            'apr#1979':[[55.49667, 36.87366],[55.6449, 37.29595]]
-        };
-        map.events.add('typechange', function (e) {
-            var currentType = map.getType();
-            if (currentType in map.typeBounds) {
-                if ( !ym.util.bounds.areIntersecting(map.getBounds(), map.typeBounds[currentType]) ) {
-                    map.setBounds(map.typeBounds[currentType]); //{checkZoomRange: true});
-                }
-            }
-        });
-        
-        var mapLocation = window.mapLocation = new MapLocation(map, initialState);        
-        mapLocation.events.add('statechange', function (e) {
-            var state = e.get('newState'),
-                hash = '#' + state;
-            
-            if('pushState' in window.history) {
-                //window.history.pushState(state.getData(), null, hash);
-                history.replaceState(state.getData(), undefined, hash)
-            }
-            else {
-                //document.location.hash = hash;
-                document.location.replace(hash);
-            }
-        });
-
-        window.onpopstate = function (e) {
-            //var state = e.originalEvent.state;
-            var state = e.state;
-
-            if(state) {
-                mapLocation.setState(state);
-            }
-            else {
-                mapLocation.setState(initialState.getData());
-            }
-        };
-        
-        
-        var button = new ym.control.Button({
-            data: {
-                content: 'Гибрид',
-                title: 'Включить гибридный слой'
-            },
-            options: {
-                //           maxWidth: [150, 200, 300],
-                floatIndex: 2,
-                float: 'right'
-            }
-        });
-        button.events.add('click', function(e) {
-            //   this.setType('apr#osob');
-            if (button.state.get('selected') == true) {
-                this.layers.remove('my#skeleton');
-            } else {
-                this.layers.add('my#skeleton');
-            }
-        }, map)
-        map.controls.add(button);
-    
-    
-        var button2 = new ym.control.Button({
-            data: {
-                content: 'Спутник',
-                title: 'Яндекс Спутник'
-            },
-            options: {
-                selectOnClick: true
-            }
-        });
-        button2.events
-            .add('deselect', function(e) {
-                this.layers.remove('yandex#satellite');
-            }, map)
-            .add('select', function(e) {
-                this.layers.add('yandex#satellite');
-            }, map);
-        map.controls.add(button2, {
-            floatIndex: 1,
-            float: 'right'
-        });
-    
-        var button3 = new ym.control.Button({
-            data: {
-                content: 'Генплан',
-                title: 'Новый генплан (проект)'
-            },
-            options: {
-                selectOnClick: true,
-                float: 'right',
-                floatIndex: 3
-            }
-        });
-        button3.events
-            .add('deselect', function(e) {
-                this.layers.remove('apr#newgenL');
-            }, map)
-            .add('select', function(e) {
-                this.layers.add('apr#newgenL');
-            }, map);
-        map.controls.add(button3);
-    
-//        map.controls.add(
-//            new ym.control.SearchControl({
-//                options: {
-//                    provider: 'yandex#publicMap',
-//                    useMapBounds: true
-//                }
-//            })
-//        );
-        
-        typeSelector = new ym.control.TypeSelector({
-            data: {
-                content: 'Слои'
-            },
-            mapTypes: ['apr#newgen', 'apr#oldgen', 'apr#osob', 'apr#inzh', 'apr#kult', 'yandex#map', 'yandex#hybrid', 'yandex#publicMap', 'google#sat', 'openstreet#map', 'apr#1970', 'apr#1971', 'apr#1979', 'wwii#proryv', 'wwii#ukrep'],
-            options: {
-                size: 'large'
-            }
-        });
-        map.controls.add(typeSelector);
-    
-        //     map.copyrights.add('&copy; Vasya');
-    });
-    </script>
 
     <div>
-        <img src="http://mc.yandex.ru/watch/27035262" style="position:absolute; left:-9999px;" alt="" />
+        <img src="https://mc.yandex.ru/watch/27035262" style="position:absolute; left:-9999px;" alt="" />
     </div>
+
+
+    <!-- Start of StatCounter Code for Default Guide -->
+    <script type="text/javascript">
+    var sc_project=11175233; 
+    var sc_invisible=1; 
+    var sc_security="0791e644"; 
+    var scJsHost = (("https:" == document.location.protocol) ?
+    "https://secure." : "http://www.");
+    document.write("<sc"+"ript type='text/javascript' src='" +
+    scJsHost+ "statcounter.com/counter/counter.js'></"+"script>");
+    </script>
+    <noscript><img
+    class="statcounter"
+    src="//c.statcounter.com/11175233/0/0791e644/1/"
+    alt="shopify stats"></noscript>
+    <!-- End of StatCounter Code for Default Guide -->
    
 </body>
 </html>
