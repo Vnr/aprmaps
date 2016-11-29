@@ -230,6 +230,8 @@ ymaps.ready(function() {
     };
     map.events.add('typechange', function(e) {
         var eMap = e.get('target');
+        satButton.deselect();
+        gpButton.deselect();
         var currentType = eMap.getType();
         var newBounds = eMap.getBounds();
         console.log('typechange: ', currentType);
@@ -241,7 +243,7 @@ ymaps.ready(function() {
         }
         eMap.setBounds(newBounds, { checkZoomRange: true });
         //e.get('target').events.fire('correctZoom');
-    });
+    }, this);
 
     var mapLocation = window.mapLocation = new MapLocation(map, initialState);
     mapLocation.events.add('statechange', function(e) {
@@ -291,7 +293,7 @@ ymaps.ready(function() {
     map.controls.add(button);
 
 
-    var button2 = new ymaps.control.Button({
+    var satButton = new ymaps.control.Button({
         data: {
             content: 'Спутник',
             title: 'Яндекс Спутник'
@@ -300,19 +302,19 @@ ymaps.ready(function() {
             selectOnClick: true
         }
     });
-    button2.events
+    satButton.events
         .add('deselect', function(e) {
             this.layers.remove('yasatL');
         }, map)
         .add('select', function(e) {
             this.layers.add('yasatL');
         }, map);
-    map.controls.add(button2, {
+    map.controls.add(satButton, {
         floatIndex: 1,
         float: 'right'
     });
 
-    var button3 = new ymaps.control.Button({
+    var gpButton = new ymaps.control.Button({
         data: {
             content: 'Генплан',
             title: 'Генплан 2013'
@@ -323,14 +325,14 @@ ymaps.ready(function() {
             floatIndex: 3
         }
     });
-    button3.events
+    gpButton.events
         .add('deselect', function(e) {
             this.layers.remove('gp2013L');
         }, map)
         .add('select', function(e) {
             this.layers.add('gp2013L');
         }, map);
-    map.controls.add(button3);
+    map.controls.add(gpButton);
 
     map.controls.add(
         new ymaps.control.SearchControl({
