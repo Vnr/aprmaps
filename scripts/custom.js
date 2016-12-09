@@ -50,7 +50,7 @@ ymaps.ready(function() {
 
     addmap({
         tileURL: 'http://vnr.github.io/aprmaps/img/1970/Z%z/%y/%x.png',
-        hash: '1970',
+        hash: 'apr#1970',
         title: 'Спутниковый снимок 1970',
         extraLayers: ['yasatL'],
         zoomRange: [11, 16]
@@ -58,7 +58,7 @@ ymaps.ready(function() {
 
     addmap({
         tileURL: 'http://vnr.github.io/aprmaps/img/1971/Z%z/%y/%x.png',
-        hash: '1971',
+        hash: 'apr#1971',
         title: 'Спутниковый снимок 1971',
         extraLayers: ['yasatL'],
         zoomRange: [11, 16]
@@ -66,7 +66,7 @@ ymaps.ready(function() {
 
     addmap({
         tileURL: 'http://vnr.github.io/aprmaps/img/1979/Z%z/%y/%x.png',
-        hash: '1979',
+        hash: 'apr#1979',
         title: 'Спутниковый снимок 1979',
         extraLayers: ['yasatL'],
         zoomRange: [10, 15]
@@ -215,15 +215,15 @@ ymaps.ready(function() {
             [55.46274, 36.99863],
             [55.59653, 37.14386]
         ],
-        '1970': [
+        'apr#1970': [
             [55.51245, 36.9739],
             [55.60352, 37.10369]
         ],
-        '1971': [
+        'apr#1971': [
             [55.50836, 36.964],
             [55.60411, 37.1085]
         ],
-        '1979': [
+        'apr#1979': [
             [55.49667, 36.87366],
             [55.6449, 37.29595]
         ]
@@ -350,7 +350,7 @@ ymaps.ready(function() {
         data: {
             content: 'Карты'
         },
-        mapTypes: ['gp2015', 'gp2014', 'gp2013', 'gp2012', 'osob', 'inzh', 'kult', '1970', '1971', '1979', 'wwii#proryv', 'wwii#ukrep', 'shubert', 'yandex#map', 'yandex#hybrid', 'google#sat', 'osm'],
+        mapTypes: ['gp2015', 'gp2014', 'gp2013', 'gp2012', 'osob', 'inzh', 'kult', 'apr#1970', 'apr#1971', 'apr#1979', 'wwii#proryv', 'wwii#ukrep', 'shubert', 'yandex#map', 'yandex#hybrid', 'google#sat', 'osm'],
         options: {
             size: 'large'
         }
